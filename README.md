@@ -1,2 +1,3 @@
-# WyseplusLibrary
-This is a test library 
+# Wyseplus
+
+A description of this package.
