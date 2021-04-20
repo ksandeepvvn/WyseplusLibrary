@@ -11,17 +11,24 @@ public class MediumWebView: WKWebView {
         self.scrollView.isScrollEnabled = false
         self.isMultipleTouchEnabled = false
     }
-    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-
-    @discardableResult
-    public func load() -> WKNavigation? {
-        if let url = URL(string:"http://example.com") {
-            let req = URLRequest(url: url)
-            return super.load(req)
+    public func loadRe() {
+      print("Test",getRequest())
+    }
+    
+    lazy var networking: Networking = {
+        let networking = Networking(baseURL: "http://52.53.168.217:8080")
+        return networking
+    }()
+    
+    public func getRequest() -> [String]
+    {
+        networking.post("/oauth/token?grant_type=client_credentials", parameters: ["client_id" : "phanitest"]) { result in
+         
+            print("Result is ", result)
         }
-        return nil
+        return ["San"]
     }
 }

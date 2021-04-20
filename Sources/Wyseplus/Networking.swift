@@ -26,7 +26,7 @@ public extension Int {
 }
 
 open class Networking {
-    static let domain = "com.3lvis.networking"
+    static let domain = "http://52.53.168.217:8080/"
 
     enum RequestType: String {
         case get = "GET", post = "POST", put = "PUT", patch = "PATCH", delete = "DELETE"
