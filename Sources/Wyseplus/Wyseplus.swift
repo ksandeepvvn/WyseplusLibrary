@@ -23,12 +23,19 @@ public class MediumWebView: WKWebView {
         return networking
     }()
     
-    public func getRequest() -> [String]
+    public func getRequest() -> String
     {
+        var status : String = ""
         networking.post("/oauth/token?grant_type=client_credentials", parameters: ["client_id" : "phanitest"]) { result in
-         
-            print("Result is ", result)
+            switch result{
+            case .success(let respones):
+                status = "True"
+                print("Success")
+            case .failure(let failureResponse):
+                print("Failure")
+                status = "false"
+            }
         }
-        return ["San"]
+        return status
     }
 }
