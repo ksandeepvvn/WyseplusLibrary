@@ -19,4 +19,27 @@ public class NetworkingCalls: NSObject {
                 }
             }
         }
+    
+    
+    public func postEventTrigger(onCompletion : @escaping (String) -> ()) {
+        networking.setAuthorizationHeader(token: "RhutzeRzr4mgla6UmvU7Xl2u7eg")
+        networking.setAuthorizationHeader(headerKey: "tenantName", headerValue: "phanitest")
+        networking.post("/track", parameters: [[
+              "name": "Sandeep",
+              "Organization": "Omniwyse"
+            ],
+            [
+              "name": "Phani",
+              "Organization": "NRKPJS"
+            ]
+          ]) { result in
+             switch result
+                         {
+                         case .success( _):
+                             onCompletion("Success")
+                         case .failure(_):
+                             onCompletion("Failure")
+             }
+         }
+     }
 }
