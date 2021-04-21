@@ -3,42 +3,44 @@ import UIKit
 import WebKit
 
 public class NetworkingCalls: NSObject {
+    var defaults = UserDefaults.standard
     lazy var networking: Networking = {
-        let networking = Networking(baseURL: "http://52.53.168.217:8080")
+        let networking = Networking(baseURL: Constants.BASE_URL)
         return networking
     }()
        public func getAccessToken(onCompletion : @escaping (String) -> ()) {
         networking.setAuthorizationHeader(username: "phanitest", password: "testrandom123")
-            networking.post("/oauth/token?grant_type=client_credentials", parameters: ["client_id" : "phanitest"]) { result in
+        networking.post(Constants.OAUTH_URL, parameters: [Constants.ClIENTID : "phanitest"]) { result in
                 switch result
                             {
                             case .success( _):
-                                onCompletion("Success")
+                                self.defaults.set("ABC", forKey: Constants.ACCESS_TOKEN)
+                                onCompletion(Constants.SUCCESS_RESPONSE)
                             case .failure(_):
-                                onCompletion("Failure")
+                                self.defaults.set("ABC", forKey: Constants.ACCESS_TOKEN)
+                                onCompletion(Constants.FAILURE_RESPONSE)
                 }
             }
         }
     
+    public func getAccessToken() -> String
+    {
+        if let access_Token = self.defaults.value(forKey: Constants.ACCESS_TOKEN) as? String{
+            return access_Token
+        }
+        return ""
+    }
     
-    public func postEventTrigger(onCompletion : @escaping (String) -> ()) {
+    public func postEventTrigger(params: [String : Any]?,onCompletion : @escaping (String) -> ()) {
         networking.setAuthorizationHeader(token: "RhutzeRzr4mgla6UmvU7Xl2u7eg")
-        networking.setAuthorizationHeader(headerKey: "tenantName", headerValue: "phanitest")
-        networking.post("/track", parameters: [[
-              "name": "Sandeep",
-              "Organization": "Omniwyse"
-            ],
-            [
-              "name": "Phani",
-              "Organization": "NRKPJS"
-            ]
-          ]) { result in
+        networking.setAuthorizationHeader(headerKey: Constants.TENANT_NAME, headerValue: "phanitest")
+        networking.post(Constants.TRACK_EVENT, parameters: params) { result in
              switch result
                          {
                          case .success( _):
-                             onCompletion("Success")
+                             onCompletion(Constants.SUCCESS_RESPONSE)
                          case .failure(_):
-                             onCompletion("Failure")
+                             onCompletion(Constants.FAILURE_RESPONSE)
              }
          }
      }
