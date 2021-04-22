@@ -145,7 +145,7 @@ public extension Networking {
     /// - Returns: The request identifier.
     @discardableResult
     func post(_ path: String, parameterType: ParameterType = .json, parameters: Any? = nil, completion: @escaping (_ result: JSONResult) -> Void) -> String {
-        return handleJSONRequest(.post, path: path, cacheName: nil, parameterType: parameterType, parameters: parameters, responseType: .json, cachingLevel: .none, completion: completion)
+        return handleJSONRequest(.post, path: path, cacheName: nil, parameterType: parameterType, parameters: parameters, responseType: .data, cachingLevel: .none, completion: completion)
     }
 
     /// POST request to the specified path, using the provided parameters.

@@ -14,6 +14,16 @@ public class NetworkingCalls: NSObject {
                 switch result
                             {
                             case .success( _):
+                                
+                                do {
+                                    let jsonSa = try JSONSerialization.data(withJSONObject: result, options: .prettyPrinted)
+                                        print("JSda", jsonSa)
+
+                                } catch let err {
+
+                                    print(err.localizedDescription)
+                                }
+                                
                                 self.defaults.set("ABC", forKey: Constants.ACCESS_TOKEN)
                                 onCompletion(Constants.SUCCESS_RESPONSE)
                             case .failure(_):
