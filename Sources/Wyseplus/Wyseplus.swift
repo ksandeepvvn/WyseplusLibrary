@@ -34,6 +34,7 @@ public class NetworkingCalls: NSObject {
     public func postEventTrigger(params: [[String : String]]?,onCompletion : @escaping (String) -> ()) {
         networking.setAuthorizationHeader(token: "RhutzeRzr4mgla6UmvU7Xl2u7eg")
 //        networking.setAuthorizationHeader(headerKey: Constants.TENANT_NAME, headerValue: "phanitest")
+        networking.headerFields = [Constants.TENANT_NAME: "phanitest"]
         networking.post(Constants.TRACK_EVENT, parameters: params) { result in
              switch result
                          {
