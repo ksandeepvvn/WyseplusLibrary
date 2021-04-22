@@ -33,7 +33,7 @@ public class NetworkingCalls: NSObject {
     
     public func postEventTrigger(params: [[String : String]]?,onCompletion : @escaping (String) -> ()) {
         let request = NSMutableURLRequest(url: NSURL(string: Constants.TRACK_EVENT)! as URL)
-        request.setValue("Bearer \("RhutzeRzr4mgla6UmvU7Xl2u7eg")", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \("PFqGRrSTcXUPOGTZFhXY7Jd-V0k")", forHTTPHeaderField: "Authorization")
         request.setValue("phanitest", forHTTPHeaderField: Constants.TENANT_NAME)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("application/json", forHTTPHeaderField: "Accept")
