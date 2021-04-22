@@ -14,7 +14,6 @@ public class NetworkingCalls: NSObject {
                 switch result
                             {
                             case .success( _):
-                                self.convert(jsonObject: result)
                                 self.defaults.set("ABC", forKey: Constants.ACCESS_TOKEN)
                                 onCompletion(Constants.SUCCESS_RESPONSE)
                             case .failure(_):
@@ -23,20 +22,6 @@ public class NetworkingCalls: NSObject {
                 }
             }
         }
-    
-    public func convert(jsonObject: JSONResult)
-    {
-        do{
-            let  jsonData = try JSONSerialization.data(withJSONObject: jsonObject)
-            let jsonString = String(data: jsonData, encoding: .utf8)
-            print("JOSN DATA", jsonData)
-            print("JSON STrIng", jsonString!)
-        }
-        catch
-        {
-            print("err")
-        }
-    }
     
     public func getAccessToken() -> String
     {
