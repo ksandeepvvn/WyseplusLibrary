@@ -75,6 +75,9 @@ open class Networking {
                 return nil
             }
         }
+        var tenantName: String? {
+            return "phanitest"
+        }
     }
 
     /// Categorizes a status code.
