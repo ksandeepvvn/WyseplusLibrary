@@ -9,19 +9,63 @@ public class NetworkingCalls: NSObject {
         return networking
     }()
        public func getAccessToken(onCompletion : @escaping (String) -> ()) {
-        networking.setAuthorizationHeader(username: "phanitest", password: "testrandom123")
-        networking.post(Constants.OAUTH_URL, parameters: [Constants.ClIENTID : "phanitest"]) { result in
-                switch result
-                            {
-                            case .success( _):
-                                self.defaults.set("ABC", forKey: Constants.ACCESS_TOKEN)
-                                onCompletion(Constants.SUCCESS_RESPONSE)
-                            case .failure(_):
-                                self.defaults.set("ABC", forKey: Constants.ACCESS_TOKEN)
-                                onCompletion(Constants.FAILURE_RESPONSE)
-                }
-            }
+        
+        let request = NSMutableURLRequest(url: NSURL(string: Constants.OAUTH_URL)! as URL)
+        let loginToken = getLoginToken(username: "phanitest", password: "testrandom123")
+        request.setValue("Basic \(loginToken)", forHTTPHeaderField: "Authorization")
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        request.httpMethod = "POST"
+        
+        
+        guard let httpBody = try? JSONSerialization.data(withJSONObject: [Constants.ClIENTID : "phanitest"] as Any, options: []) else {
+               return
+           }
+           request.httpBody = httpBody
+           let session = URLSession.shared
+            session.dataTask(with: request as URLRequest) { (data, response, error) in
+               if let response = response {
+                guard let httpResponse = response as? HTTPURLResponse else {return}
+                print("Status Code", httpResponse.statusCode)
+               }
+               if let data = data {
+                   do {
+                       let json = try JSONSerialization.jsonObject(with: data, options: [])
+                       print(json)
+                   } catch {
+                       print(error)
+                   }
+               }
+           }.resume()
+        
+        
+        
+//
+//        networking.setAuthorizationHeader(username: "phanitest", password: "testrandom123")
+//        networking.post(Constants.OAUTH_URL, parameters: [Constants.ClIENTID : "phanitest"]) { result in
+//                switch result
+//                            {
+//                            case .success( _):
+//                                self.defaults.set("ABC", forKey: Constants.ACCESS_TOKEN)
+//                                onCompletion(Constants.SUCCESS_RESPONSE)
+//                            case .failure(_):
+//                                self.defaults.set("ABC", forKey: Constants.ACCESS_TOKEN)
+//                                onCompletion(Constants.FAILURE_RESPONSE)
+//                }
+//            }
         }
+    
+    public func getLoginToken(username: String, password: String) -> String
+    {
+        let credentialsString = "\(username):\(password)"
+        var authString : String = ""
+        if let credentialsData = credentialsString.data(using: .utf8) {
+            let base64Credentials = credentialsData.base64EncodedString(options: [])
+            authString = "Basic \(base64Credentials)"
+            return authString
+        }
+        return authString
+    }
     
     public func getAccessToken() -> String
     {
@@ -45,16 +89,22 @@ public class NetworkingCalls: NSObject {
            let session = URLSession.shared
             session.dataTask(with: request as URLRequest) { (data, response, error) in
                if let response = response {
-                   print(response)
+                guard let httpResponse = response as? HTTPURLResponse else {return}
+                switch httpResponse.statusCode {
+                case 200:
+                    onCompletion(Constants.SUCCESS_RESPONSE)
+                default:
+                    onCompletion(Constants.FAILURE_RESPONSE)
+                }
                }
-               if let data = data {
-                   do {
-                       let json = try JSONSerialization.jsonObject(with: data, options: [])
-                       print(json)
-                   } catch {
-                       print(error)
-                   }
-               }
+//               if let data = data {
+//                   do {
+//                       let json = try JSONSerialization.jsonObject(with: data, options: [])
+//                       print(json)
+//                   } catch {
+//                       print(error)
+//                   }
+//               }
            }.resume()
         
      }
