@@ -139,7 +139,7 @@ open class Networking {
         let credentialsString = "\(username):\(password)"
         if let credentialsData = credentialsString.data(using: .utf8) {
             let base64Credentials = credentialsData.base64EncodedString(options: [])
-            let authString = "Basic Auth \(base64Credentials)"
+            let authString = "Basic \(base64Credentials)"
 
             authorizationHeaderKey = "Authorization"
             authorizationHeaderValue = authString
