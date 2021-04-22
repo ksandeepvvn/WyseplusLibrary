@@ -13,7 +13,7 @@ struct Constants {
     static let TENANT_NAME = "tenantName"
     static let OAUTH_URL = "/oauth/token?grant_type=client_credentials"
     static let BASE_URL = "http://52.53.168.217:8080"
-    static let TRACK_EVENT = "/track"
+    static let TRACK_EVENT = "http://52.53.168.217:8080/track"
     static let SUCCESS_RESPONSE = "Success"
     static let FAILURE_RESPONSE = "Failure"
 }

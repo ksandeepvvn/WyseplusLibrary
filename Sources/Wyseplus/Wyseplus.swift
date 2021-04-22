@@ -32,17 +32,30 @@ public class NetworkingCalls: NSObject {
     }
     
     public func postEventTrigger(params: [[String : String]]?,onCompletion : @escaping (String) -> ()) {
-        networking.setAuthorizationHeader(token: "RhutzeRzr4mgla6UmvU7Xl2u7eg")
-//        networking.setAuthorizationHeader(headerKey: Constants.TENANT_NAME, headerValue: "phanitest")
-        networking.headerFields = [Constants.TENANT_NAME: "phanitest"]
-        networking.post(Constants.TRACK_EVENT, parameters: params) { result in
-             switch result
-                         {
-                         case .success( _):
-                             onCompletion(Constants.SUCCESS_RESPONSE)
-                         case .failure(_):
-                             onCompletion(Constants.FAILURE_RESPONSE)
-             }
-         }
+        let request = NSMutableURLRequest(url: NSURL(string: Constants.TRACK_EVENT)! as URL)
+        request.setValue("Bearer \("RhutzeRzr4mgla6UmvU7Xl2u7eg")", forHTTPHeaderField: "Authorization")
+        request.setValue("phanitest", forHTTPHeaderField: Constants.TENANT_NAME)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        request.httpMethod = "POST"
+        guard let httpBody = try? JSONSerialization.data(withJSONObject: params as Any, options: []) else {
+               return
+           }
+           request.httpBody = httpBody
+           let session = URLSession.shared
+            session.dataTask(with: request as URLRequest) { (data, response, error) in
+               if let response = response {
+                   print(response)
+               }
+               if let data = data {
+                   do {
+                       let json = try JSONSerialization.jsonObject(with: data, options: [])
+                       print(json)
+                   } catch {
+                       print(error)
+                   }
+               }
+           }.resume()
+        
      }
 }
