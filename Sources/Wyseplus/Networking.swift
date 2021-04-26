@@ -51,7 +51,7 @@ open class Networking {
             case .none:
                 return nil
             case .json:
-                return "application/json"
+                return "application/x-www-form-urlencoded"
             case .formURLEncoded:
                 return "application/x-www-form-urlencoded"
             case .multipartFormData:
