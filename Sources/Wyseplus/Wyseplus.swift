@@ -12,7 +12,6 @@ public class NetworkingCalls: NSObject {
         let request = NSMutableURLRequest(url: NSURL(string: Constants.OAUTH_URL)! as URL)
         request.setValue("Basic \(getLoginCredentialsAuthValue(username: "phanitest", password: "testrandom123"))", forHTTPHeaderField: "Authorization")
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
         request.httpMethod = "POST"
         guard let httpBody = try? JSONSerialization.data(withJSONObject: [] as Any, options: []) else {
                return
