@@ -8,20 +8,36 @@ public class NetworkingCalls: NSObject {
         let networking = Networking(baseURL: Constants.BASE_URL)
         return networking
     }()
-       public func generateAccessToken(onCompletion : @escaping (String) -> ()) {
-        networking.setAuthorizationHeader(username: "phanitest", password: "testrandom123")
-        networking.post(Constants.OAUTH_URL, parameters: [Constants.ClIENTID : "phanitest"]) { result in
-                switch result
-                            {
-                            case .success( _):
-                                self.defaults.set("ABC", forKey: Constants.ACCESS_TOKEN)
-                                onCompletion(Constants.SUCCESS_RESPONSE)
-                            case .failure(_):
-                                self.defaults.set("ABC", forKey: Constants.ACCESS_TOKEN)
-                                onCompletion(Constants.FAILURE_RESPONSE)
-                }
-            }
-        }
+//       public func generateAccessToken(onCompletion : @escaping (String) -> ()) {
+//        networking.setAuthorizationHeader(username: "phanitest", password: "testrandom123")
+//        networking.post(Constants.OAUTH_URL, parameters: [Constants.ClIENTID : "phanitest"]) { result in
+//                switch result
+//                            {
+//                            case .success( _):
+//                                self.defaults.set("ABC", forKey: Constants.ACCESS_TOKEN)
+//                                onCompletion(Constants.SUCCESS_RESPONSE)
+//                            case .failure(_):
+//                                self.defaults.set("ABC", forKey: Constants.ACCESS_TOKEN)
+//                                onCompletion(Constants.FAILURE_RESPONSE)
+//                }
+//            }
+//        }
+    
+    public func generateAccessToken(onCompletion : @escaping (String) -> ()) {
+     networking.setAuthorizationHeader(username: "phanitest", password: "testrandom123")
+     networking.post(Constants.OAUTH_URL, parameters: [Constants.ClIENTID : "phanitest"]) { result in
+             switch result
+                         {
+                         case .success( _):
+                             self.defaults.set("ABC", forKey: Constants.ACCESS_TOKEN)
+                             onCompletion(Constants.SUCCESS_RESPONSE)
+                         case .failure(_):
+                             self.defaults.set("ABC", forKey: Constants.ACCESS_TOKEN)
+                             onCompletion(Constants.FAILURE_RESPONSE)
+             }
+         }
+     }
+    
     
     public func getLoginCredentialsAuthValue(username: String, password: String) -> String
     {
