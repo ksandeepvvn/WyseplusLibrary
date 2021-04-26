@@ -10,7 +10,8 @@ public class NetworkingCalls: NSObject {
     }()
        public func generateAccessToken(onCompletion : @escaping (String) -> ()) {
         let request = NSMutableURLRequest(url: NSURL(string: Constants.OAUTH_URL)! as URL)
-        request.setValue("Basic \(getLoginCredentialsAuthValue(username: "phanitest", password: "testrandom123"))", forHTTPHeaderField: "Authorization")
+        let loginAuth = getLoginCredentialsAuthValue(username: "phanitest", password: "testrandom123")
+        request.setValue("Basic\(loginAuth)", forHTTPHeaderField: "Authorization")
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
         guard let httpBody = try? JSONSerialization.data(withJSONObject: [Constants.ClIENTID: "phanitest"] as Any, options: []) else {
