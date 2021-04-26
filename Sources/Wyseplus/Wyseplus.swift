@@ -13,7 +13,7 @@ public class NetworkingCalls: NSObject {
         request.setValue("Basic \(getLoginCredentialsAuthValue(username: "phanitest", password: "testrandom123"))", forHTTPHeaderField: "Authorization")
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
-        guard let httpBody = try? JSONSerialization.data(withJSONObject: [] as Any, options: []) else {
+        guard let httpBody = try? JSONSerialization.data(withJSONObject: [Constants.ClIENTID: "phanitest"] as Any, options: []) else {
                return
            }
            request.httpBody = httpBody
